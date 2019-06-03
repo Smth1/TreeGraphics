@@ -1,4 +1,4 @@
-package shape;
+package main.java.shape;
 
 import com.sun.javafx.tk.FontMetrics;
 import com.sun.javafx.tk.Toolkit;

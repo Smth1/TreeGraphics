@@ -1,4 +1,4 @@
-package tree;
+package main.java.tree;
 
 /**
  * Defines an exception that is thrown when tree exception occurs.

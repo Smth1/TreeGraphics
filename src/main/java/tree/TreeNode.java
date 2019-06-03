@@ -1,6 +1,6 @@
-package tree;
+package main.java.tree;
 
-import shape.Circle;
+import main.java.shape.Circle;
 
 /**
  * A binary tree using circle objects.

@@ -1,7 +1,7 @@
-package tree;
+package main.java.tree;
 
 import java.util.Objects;
-import shape.Circle;
+import main.java.shape.Circle;
 
 /**
  * Binary search tree. 

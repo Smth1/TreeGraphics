@@ -1,4 +1,4 @@
-package controller;
+package main.java.controller;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
@@ -6,8 +6,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
-import tree.*;
-import shape.*;
+import main.java.tree.*;
+import main.java.shape.*;
 import java.util.Objects;
 
 /**

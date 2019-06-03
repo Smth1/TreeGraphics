@@ -1,6 +1,6 @@
-package tree;
+package main.java.tree;
 
-import shape.Circle;
+import main.java.shape.Circle;
 
 /**
  * An abstract base class for a binary tree.
