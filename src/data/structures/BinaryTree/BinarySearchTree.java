@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import main.java.shape.Circle;
+import sun.reflect.generics.tree.Tree;
 
 /**
  * Binary search tree.
@@ -36,43 +37,44 @@ public class BinarySearchTree extends BinaryTreeBasis {
      * Inserts a new circle into the tree.
      * @param keyNumber
      */
-    public void insertItem(Integer keyNumber) {
+    public TreeNode insertItem(Integer keyNumber) {
 
-        TreeNode temp = new TreeNode(keyNumber);
-
-        root = insertItem(temp);
+        TreeNode treeNode = insertItem(root,keyNumber);
+        if(root == null)
+            root = treeNode;
+        return  treeNode;
     }
 
     /**
      * Inserts a new circle into the tree.
      * @param tNode a tree node
-     * @param newCircle a new circle
      * @return
      * @Overload insertItem()
      */
-    protected TreeNode insertItem(TreeNode tNode) {
-        TreeNode newSubtree;
-
+    protected TreeNode insertItem(TreeNode tNode,Integer keyNumber) {
         if (tNode == null) {
-            tNode = new TreeNode(tNode.left, tNode.right, tNode.searchKey);
+            tNode = new TreeNode(keyNumber);
             return tNode;
         }
 
-        TreeNode nodeItem = this.root;
-
-        if(Objects.equals(tNode.getSearchKey(), nodeItem.getSearchKey())) {
+        if(Objects.equals(keyNumber, tNode.getSearchKey())) {
             return tNode;
         }
 
-        if (tNode.getSearchKey() < nodeItem.getSearchKey()) {
-            newSubtree = insertItem(tNode.left);
-            tNode.left = newSubtree;
-            return tNode;
+        if (tNode.getSearchKey() > keyNumber && tNode.left == null) {
+            tNode.left = new TreeNode(keyNumber);
+            return tNode.left;
+        }
+        else if (tNode.getSearchKey() > keyNumber && tNode.left != null) {
+            return  insertItem(tNode.left,keyNumber);
+        } else if (tNode.getSearchKey() < keyNumber && tNode.right != null) {
+            return insertItem(tNode.right,keyNumber);
+        } else if (tNode.getSearchKey() < keyNumber && tNode.right == null) {
+            tNode.right = new TreeNode(keyNumber);
+            return tNode.right;
         }
 
-        newSubtree = insertItem(tNode.right);
-        tNode.right = newSubtree;
-        return tNode;
+        return null;
     }
 
     /**
@@ -98,10 +100,10 @@ public class BinarySearchTree extends BinaryTreeBasis {
 
         } else {
 
-            TreeNode nodeItem = this.root;
-            if (Objects.equals(searchKey, nodeItem.getSearchKey())) {
+
+            if (Objects.equals(searchKey, tNode.getSearchKey())) {
                 return tNode;
-            } else if (searchKey < nodeItem.getSearchKey()) {
+            } else if (searchKey < tNode.getSearchKey()) {
                 return retrieveItem(tNode.left, searchKey);
             } else {
                 return retrieveItem(tNode.right, searchKey);
@@ -115,7 +117,7 @@ public class BinarySearchTree extends BinaryTreeBasis {
      * @throws TreeException if search key cannot be located.
      */
     public void deleteItem(Integer searchKey) throws TreeException {
-        root = deleteItem(root, searchKey);
+        root =  deleteItem(root, searchKey);
     }
 
     /**
@@ -132,11 +134,10 @@ public class BinarySearchTree extends BinaryTreeBasis {
             throw new TreeException("tree.TreeException: Item not found");
         }
 
-        TreeNode nodeItem = this.root;
-        if (Objects.equals(searchKey, nodeItem.getSearchKey())) {
+        if (Objects.equals(searchKey, tNode.getSearchKey())) {
             tNode = deleteNode(tNode);
 
-        } else if (searchKey < nodeItem.getSearchKey()) {
+        } else if (searchKey < tNode.getSearchKey()) {
             newSubtree = deleteItem(tNode.left, searchKey);
             tNode.left = newSubtree;
         }
@@ -151,26 +152,28 @@ public class BinarySearchTree extends BinaryTreeBasis {
 
     public List<Integer> getPath(TreeNode tNode) {
         List<Integer> list = new ArrayList<>();
-        TreeNode newSubtree;
 
         if (tNode == null) {
             throw new TreeException("tree.TreeException: Item not found");
         }
 
         TreeNode nodeItem = this.root;
-        while(Objects.equals(tNode.getSearchKey(), nodeItem.getSearchKey()) || nodeItem == null ) {
+        while(true) {
+            if (nodeItem == null)
+                throw new TreeException("tree.TreeException: Item not found");
             list.add(nodeItem.getSearchKey());
 
             if (Objects.equals(tNode.getSearchKey(), nodeItem.getSearchKey())) {
                 return list;
+
             } else if (tNode.getSearchKey() < nodeItem.getSearchKey()) {
                 nodeItem = nodeItem.left;
             } else {
                 nodeItem = nodeItem.right;
+
             }
         }
 
-        return list;
     }
 
     /**
@@ -253,4 +256,3 @@ public class BinarySearchTree extends BinaryTreeBasis {
         root = new TreeNode(newItem.left, newItem.right, newItem.searchKey);
     }
 }
-

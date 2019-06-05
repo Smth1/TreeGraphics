@@ -1,5 +1,7 @@
 package data.structures.BinaryTree;
 
+import sun.reflect.generics.tree.Tree;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -11,7 +13,7 @@ import java.util.NoSuchElementException;
  */
 public final class TreeIterator implements Iterator<Integer> {
 
-    private BinaryTreeBasis binaryTree;
+    private BinarySearchTree binaryTree;
     private TreeNode currentNode;
     private LinkedList<TreeNode> queue;
 
@@ -19,7 +21,7 @@ public final class TreeIterator implements Iterator<Integer> {
      * Iterates through the tree using the java.util.Iterator<E> interface.
      * @param binaryTree the abstract binary tree class
      */
-    public TreeIterator(BinaryTreeBasis binaryTree) {
+    public TreeIterator(BinarySearchTree binaryTree) {
         this.binaryTree = binaryTree;
         currentNode = null;
         queue = new LinkedList<>();
@@ -72,10 +74,18 @@ public final class TreeIterator implements Iterator<Integer> {
         }
     }
 
+    public TreeIterator toLeft() throws NoSuchElementException {
+        try {
+            return new TreeIterator(binaryTree,currentNode.left);
+        } catch (QueueException e) {
+            throw new NoSuchElementException();
+        }
+    }
+
     public Integer getLeft() throws NoSuchElementException {
         try {
-            currentNode = currentNode.left;
-            return currentNode.getSearchKey();
+
+            return currentNode.left.getSearchKey();
         } catch (QueueException e) {
             throw new NoSuchElementException();
         }
@@ -85,10 +95,18 @@ public final class TreeIterator implements Iterator<Integer> {
         return currentNode.right != null;
     }
 
+    public TreeIterator toRight() throws NoSuchElementException {
+        try {
+            return new TreeIterator(binaryTree,currentNode.right);
+        } catch (QueueException e) {
+            throw new NoSuchElementException();
+        }
+    }
+
     public Integer getRight() throws NoSuchElementException {
         try {
-            currentNode = currentNode.right;
-            return currentNode.getSearchKey();
+
+            return currentNode.right.getSearchKey();
         } catch (QueueException e) {
             throw new NoSuchElementException();
         }
